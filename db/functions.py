@@ -11,7 +11,9 @@ def createOne(item: dict, collection) -> dict:
     return res
 
 def deleteOne(filter: dict , collection) -> dict:
-    collection.insert_one(filter)
+    res = collection.delete_one(filter)
+    if res.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Transportation not found")
     return {"deleted": True}
 
 def findOne(filter: dict, collection) -> dict:
